@@ -41,11 +41,9 @@ CREATE TABLE invoice_items(
 
 --  Create table named treatments
 CREATE TABLE treatments(
-    id int NOT NULL,
+    id int primary key,
     type varchar(255),
     name varchar(255),
-    PRIMARY KEY (id),
-    FOREIGN KEY(id) REFERENCES medical_histories(id) ON UPDATE CASCADE
 );
 
 BEGIN;
@@ -54,7 +52,13 @@ ALTER TABLE invoice_items
     ADD COLUMN treatment_id int REFERENCES treatments(id);
 COMMIT;
 
-
+CREATE TABLE medical_histories_treatments (
+  medical_id int,
+  treatment_id int,
+  PRIMARY KEY (medical_id, treatment_id),
+  CONSTRAINT fkey_medical_id FOREIGN KEY(medical_id) REFERENCES medical_histories(id),
+  CONSTRAINT fkey_treatments_id FOREIGN KEY(treatment_id) REFERENCES treatments(id)
+);
 
 CREATE INDEX medical_history_id_index on invoices(
     medical_history_id
@@ -70,8 +74,4 @@ CREATE INDEX treatment_id_index on invoice_items(
 
 CREATE INDEX invoice_id_index on invoice_items(
     invoice_id
-);
-
-CREATE INDEX id_index on treatments(
-    id
 );
