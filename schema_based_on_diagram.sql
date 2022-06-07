@@ -53,3 +53,25 @@ ALTER TABLE invoice_items
     DROP COLUMN treatment_id,
     ADD COLUMN treatment_id int REFERENCES treatments(id);
 COMMIT;
+
+
+
+CREATE INDEX medical_history_id_index on invoices(
+    medical_history_id
+);
+
+CREATE INDEX medical_history_id on medical_histories(
+    patient_id
+);
+
+CREATE INDEX treatment_id_index on invoice_items(
+    treatment_id
+);
+
+CREATE INDEX invoice_id_index on invoice_items(
+    invoice_id
+);
+
+CREATE INDEX id_index on treatments(
+    id
+);
